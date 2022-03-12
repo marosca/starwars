@@ -5,7 +5,27 @@ import { paths } from './app-routing.paths';
 const routes: Routes = [
   {
     path: paths.home,
-    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    loadChildren: () =>
+      import('./modules/home/home.module').then((m) => m.HomeModule),
+  },
+  {
+    path: paths.peopleList,
+    loadChildren: () =>
+      import('./modules/people-list/people-list.module').then(
+        (m) => m.PeopleListModule
+      ),
+  },
+  {
+    path: paths.peopleDetail + '/:id',
+    loadChildren: () =>
+      import('./modules/people-detail/people-detail.module').then(
+        (m) => m.PeopleDetailModule
+      ),
+  },
+  {
+    path: paths.peopleDetail + '/:id/',
+    redirectTo: paths.peopleDetail + '/:id',
+    pathMatch: 'full',
   },
 ];
 

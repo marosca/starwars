@@ -1,0 +1,36 @@
+<main class="people-list__main">
+  <section class="people-list__paginator">
+    <mat-paginator
+      [length]="totalPages"
+      [pageSize]="10"
+      [pageIndex]="currentPage - 1"
+      (page)="navigate($event.pageIndex + 1)"
+      aria-label="Select page"
+    >
+    </mat-paginator>
+  </section>
+  <section class="people-list__list-wrapper">
+    <div *ngFor="let person of people" class="people-list__item">
+      <a
+        [routerLink]="['/', paths.peopleDetail, person.id]"
+        title="Ve a detalle"
+      >
+        <mat-card class="people-list__item">
+          <mat-card-header class="people-list__header">
+            <mat-card-title class="people-list__title">{{
+              person.name
+            }}</mat-card-title>
+            <mat-card-subtitle>{{ person.gender }}</mat-card-subtitle>
+          </mat-card-header>
+
+          <img
+            mat-card-image
+            class="people-list__image"
+            [src]="getImage(person.id)"
+            alt="Foto"
+          />
+        </mat-card>
+      </a>
+    </div>
+  </section>
+</main>

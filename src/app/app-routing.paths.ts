@@ -1,4 +1,5 @@
 export const paths = {
   home: '',
-  character: '/personaje',
+  peopleList: 'listado',
+  peopleDetail: 'detalle-personaje',
 };
