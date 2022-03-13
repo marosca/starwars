@@ -3,19 +3,18 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { catchError, map, Observable, of, throwError } from 'rxjs';
 import { People, PeopleRequest } from '../models/people.model';
-import { isNgTemplate } from '@angular/compiler';
 import { Film, FilmsRequest } from '../models/films.models';
-
-const apiUrl = 'https://swapi.dev/api';
+import { getIdByUrl } from '../helpers/helpers';
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class PeopleService {
   constructor(private http: HttpClient) {}
 
-  private handleError(error: HttpErrorResponse) {
+  private handleGetPeopleError(error: HttpErrorResponse) {
     // swapi error when there is no results
-    // we send our own code to container y manage error and
+    // we send our own code to manage error and
     // send user to a valid page
     if (error.error.detail === 'Not found') {
       return of({ error: { code: 800 } } as PeopleRequest);
@@ -38,29 +37,36 @@ export class PeopleService {
   }
 
   getPeople(page: number): Observable<PeopleRequest> {
-    return this.http.get<PeopleRequest>(`${apiUrl}/people/?page=${page}`).pipe(
-      map((item: PeopleRequest) => ({
-        ...item,
-        results: item.results.map((data: People) => ({
-          ...data,
-          id: data.url
-            .replace('https://swapi.dev/api/people/', '')
-            .replace('/', ''),
+    return this.http
+      .get<PeopleRequest>(`${environment.apiUrl}/people/?page=${page}`)
+      .pipe(
+        map((item: PeopleRequest) => ({
+          ...item,
+          results: item.results.map((data: People) => ({
+            ...data,
+            id: getIdByUrl(data.url),
+          })),
         })),
-      })),
-      catchError(this.handleError)
+        catchError(this.handleGetPeopleError)
+      );
+  }
+
+  getPeopleById(id: string): Observable<People> {
+    return this.http.get<People>(`${environment.apiUrl}/people/${id}`).pipe(
+      map((item: People) => ({
+        ...item,
+        id: getIdByUrl(item.url),
+      }))
     );
   }
 
-  getPeopleById(id: string): Observable<PeopleRequest> {
-    return this.http.get<PeopleRequest>(`${apiUrl}/people/${id}`);
-  }
-
-  getAllFilmsByPeopleUrl(url: string): Observable<Film[]> {
-    return this.http.get<FilmsRequest>(`${apiUrl}/films`).pipe(
+  getAllFilmsByPeopleId(id: string): Observable<Film[]> {
+    return this.http.get<FilmsRequest>(`${environment.apiUrl}/films`).pipe(
       map((data) => {
         return data.results.filter((film) =>
-          film.characters.some((c) => c === url)
+          film.characters.some(
+            (c) => c === `${environment.apiUrl}/people/${id}/`
+          )
         );
       })
     );

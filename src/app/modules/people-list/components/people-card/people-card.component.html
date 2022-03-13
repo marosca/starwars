@@ -1,0 +1,12 @@
+<a [routerLink]="['/', paths.peopleDetail, person?.id]" title="Ve a detalle">
+  <mat-card class="people-card__item">
+    <mat-card-header class="people-card__header">
+      <mat-card-title class="people-card__title">{{
+        person?.name
+      }}</mat-card-title>
+      <mat-card-subtitle>{{ person?.gender }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <img mat-card-image class="people-card__image" [src]="imgUrl" alt="Foto" />
+  </mat-card>
+</a>

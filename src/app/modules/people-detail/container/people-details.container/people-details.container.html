@@ -1,1 +1,67 @@
-<main class="people-details__main">AKSDJLFALSKJFALSKD</main>
+<main class="people-details__main">
+  <div class="people-details__name">
+    <a [routerLink]="['/', paths.peopleList]"
+      ><mat-icon
+        aria-hidden="false"
+        aria-label="Example home icon"
+        class="people-details__back"
+        >keyboard_backspace</mat-icon
+      ></a
+    >
+    <h1>{{ person?.name }}</h1>
+  </div>
+
+  <section class="people-details__wrapper">
+    <mat-spinner
+      *ngIf="!person?.name; else PersonDetail"
+      class="people-details__loading"
+      diameter="60"
+    ></mat-spinner>
+  </section>
+</main>
+
+<!-- ###### TEMPLATES ######-->
+<!-- DETAILS TEMPLATE -->
+<ng-template #PersonDetail>
+  <article class="people-details__picture">
+    <img
+      mat-card-image
+      class="people-details__image"
+      [src]="imgURL"
+      alt="Foto"
+    />
+  </article>
+  <article class="people-details__info">
+    <div class="people-details__block">
+      <p class="people-details__block--title">Nombre:</p>
+      <h3 class="people-details__block--data">{{ person?.name }}</h3>
+    </div>
+    <div class="people-details__block">
+      <p class="people-details__block--title">Género:</p>
+      <h3 class="people-details__block--data">{{ person?.gender }}</h3>
+    </div>
+    <div class="people-details__block">
+      <p class="people-details__block--title">Altura:</p>
+      <h3 class="people-details__block--data">{{ person?.height }}</h3>
+    </div>
+    <div class="people-details__block">
+      <p class="people-details__block--title">Peso:</p>
+      <h3 class="people-details__block--data">{{ person?.mass }}</h3>
+    </div>
+    <div class="people-details__block people-details__block-films">
+      <p class="people-details__block--title">Películas:</p>
+      <mat-spinner
+        *ngIf="!films?.length; else FilmsTemplate"
+        diameter="30"
+      ></mat-spinner>
+    </div>
+  </article>
+</ng-template>
+<!-- FILMS TEMPLATE -->
+<ng-template #FilmsTemplate>
+  <ul>
+    <li *ngFor="let film of films" class="people-details__block--data-film">
+      {{ film?.title }}
+    </li>
+  </ul>
+</ng-template>

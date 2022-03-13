@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PeopleService } from '../../../service/people-service.service';
 import { People } from '../../../models/people.model';
-import { paths } from '../../../app-routing.paths';
-import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { distinctUntilChanged, map, Subscription, throwError } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-people-list.container',
   templateUrl: './people-list.container.component.html',
@@ -14,8 +13,7 @@ export class PeopleListContainer implements OnInit {
   people: People[] = [];
   currentPage!: number;
   totalPages!: number;
-  paths = paths;
-  imgURL = 'https://starwars-visualguide.com/assets/img/characters';
+  imgURL = environment.apiImageUrl;
   // Subscriptions: Even with take(1) or first(),
   // we must AutoUnsubscribe them to prevent attempts to update
   // after component destroyed when waiting for the response to come
