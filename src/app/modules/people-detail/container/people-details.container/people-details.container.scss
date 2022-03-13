@@ -71,7 +71,7 @@
 
     &__info {
       padding: 40px 16px;
-      max-width: 100%;
+      width: 100%;
     }
 
     &__picture {
@@ -79,9 +79,10 @@
     }
 
     &__image {
-      height: unset;
-      max-width: 300px;
-      padding-top: 100px;
+      height: 440px;
+      width: 100vw;
+      padding-top: 97px;
+      object-fit: cover;
     }
   }
 }
