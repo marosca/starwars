@@ -46,4 +46,10 @@ export class PeopleService {
       })
     );
   }
+
+  getAllFilms(): Observable<Film[]> {
+    return this.http
+      .get<FilmsRequest>(`${environment.apiUrl}/films`)
+      .pipe(map((data) => data.results));
+  }
 }

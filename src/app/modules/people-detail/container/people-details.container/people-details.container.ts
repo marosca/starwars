@@ -1,11 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, map, Subscription, take } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { distinctUntilChanged, filter, map, Subscription, take } from 'rxjs';
 import { paths } from '../../../../app-routing.paths';
 import { Film } from 'src/app/models/films.models';
 import { People } from 'src/app/models/people.model';
-import { PeopleService } from 'src/app/service/people-service.service';
 import { environment } from '../../../../../environments/environment';
+import { Store } from '@ngrx/store';
+import {
+  getFilmsAction,
+  getPeopleDetailAction,
+} from '../../redux/people-detail.actions';
+import {
+  selectFilmsByPeopleId,
+  selectPeopleDetailById,
+  selectPeopleDetailError,
+  selectPeopleDetailLoading,
+} from '../../redux/people-detail.selectors';
 @Component({
   selector: 'app-people-details.container',
   templateUrl: './people-details.container.html',
@@ -21,12 +31,10 @@ export class PeopleDetailsContainer implements OnInit {
   subscriptions: Subscription[] = [];
   films: Film[] = [];
   paths = paths;
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private peopleService: PeopleService
-  ) {
-    console.log('^^^', this.activatedRoute);
+  error = false;
+  loadingPage$ = this.store.select(selectPeopleDetailLoading);
+
+  constructor(private activatedRoute: ActivatedRoute, private store: Store) {
     this.activatedRoute.paramMap
       .pipe(
         map((paramMap) => paramMap.get('id')),
@@ -35,20 +43,44 @@ export class PeopleDetailsContainer implements OnInit {
       .subscribe((peopleId) => {
         this.id = peopleId || '';
         this.imgURL = `${this.imgURL}/${this.id}.jpg`;
+        this.store.dispatch(getPeopleDetailAction({ payload: +this.id }));
+        this.store.dispatch(getFilmsAction());
+
         this.subscriptions.push(
-          this.peopleService.getPeopleById(this.id).subscribe((person) => {
-            this.person = person;
-          })
+          this.store
+            .select(selectPeopleDetailById(+this.id))
+            .pipe(
+              filter((data) => !!data),
+              distinctUntilChanged()
+            )
+            .subscribe((person) => {
+              this.person = person as People;
+              this.error = false;
+            })
         );
 
         this.subscriptions.push(
-          this.peopleService
-            .getAllFilmsByPeopleId(this.id)
+          this.store
+            .select(selectFilmsByPeopleId(+this.id))
             .subscribe((films) => {
               this.films = films;
             })
         );
       });
+
+    this.subscriptions.push(
+      this.store
+        .select(selectPeopleDetailError)
+        .pipe(
+          filter((error) => !!error),
+          distinctUntilChanged()
+        )
+        .subscribe((error) => {
+          if (!error?.ok) {
+            this.error = true;
+          }
+        })
+    );
   }
   ngOnInit(): void {}
 }

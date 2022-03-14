@@ -2,13 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { from, of } from 'rxjs';
-import {
-  catchError,
-  exhaustMap,
-  map,
-  switchMap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, switchMap, withLatestFrom } from 'rxjs/operators';
 import { SwapiError } from 'src/app/models/people.model';
 
 import { PeopleService } from 'src/app/service/people-service.service';

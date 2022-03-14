@@ -69,31 +69,29 @@ export class PeopleListContainer implements OnInit {
                 })
             );
 
-            this.store
-              .select(selectPeopleListError)
-              .pipe(
-                filter((error) => !!error),
-                distinctUntilChanged()
-              )
-              .subscribe((error) => {
-                // invalida page number
-                if (error?.error.detail === 'Not found') {
-                  this.navigate(1);
-                }
-                if (!error?.ok) {
-                  this.error = true;
-                }
-              });
+            this.subscriptions.push(
+              this.store
+                .select(selectPeopleListError)
+                .pipe(
+                  filter((error) => !!error),
+                  distinctUntilChanged()
+                )
+                .subscribe((error) => {
+                  // invalida page number
+                  if (error?.error.detail === 'Not found') {
+                    this.navigate(1);
+                  }
+                  if (!error?.ok) {
+                    this.error = true;
+                  }
+                })
+            );
           }
         })
     );
   }
 
   ngOnInit(): void {}
-
-  goToDetail(url: string) {
-    console.log('****', url);
-  }
 
   navigate(page: number, replace = true) {
     this.router.navigate([], {
