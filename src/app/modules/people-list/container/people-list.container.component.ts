@@ -2,8 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { PeopleService } from '../../../service/people-service.service';
 import { People } from '../../../models/people.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { distinctUntilChanged, map, Subscription, throwError } from 'rxjs';
+import { distinctUntilChanged, filter, map, Subscription, take } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { Store } from '@ngrx/store';
+import { getPeopleListAction } from '../redux/people-list.actions';
+import {
+  selectPeopleListTotalPages,
+  selectPeopleListPage,
+  selectPeopleListLoading,
+  selectPeopleListError,
+} from '../redux/people-list.selectors';
 @Component({
   selector: 'app-people-list.container',
   templateUrl: './people-list.container.component.html',
@@ -12,7 +20,13 @@ import { environment } from '../../../../environments/environment';
 export class PeopleListContainer implements OnInit {
   people: People[] = [];
   currentPage!: number;
-  totalPages!: number;
+  totalPages$ = this.store.select(selectPeopleListTotalPages).pipe(
+    filter((total) => !!total),
+    take(1)
+  );
+  loadingPage$ = this.store.select(selectPeopleListLoading);
+  error = false;
+
   imgURL = environment.apiImageUrl;
   // Subscriptions: Even with take(1) or first(),
   // we must AutoUnsubscribe them to prevent attempts to update
@@ -22,7 +36,8 @@ export class PeopleListContainer implements OnInit {
   constructor(
     private peopleService: PeopleService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) {
     this.subscriptions.push(
       this.activatedRoute.queryParamMap
@@ -36,17 +51,39 @@ export class PeopleListContainer implements OnInit {
             this.navigate(this.currentPage);
           } else {
             this.currentPage = +page;
+
+            this.store.dispatch(
+              getPeopleListAction({ payload: this.currentPage })
+            );
+
             this.subscriptions.push(
-              this.peopleService
-                .getPeople(this.currentPage)
-                .subscribe((data) => {
-                  if (data?.error?.code === 800) {
-                    this.navigate(1);
-                  }
-                  this.people = data?.results || [];
-                  this.totalPages = data?.count;
+              this.store
+                .select(selectPeopleListPage(this.currentPage))
+                .pipe(
+                  filter((data) => !!data?.length),
+                  distinctUntilChanged()
+                )
+                .subscribe((result) => {
+                  this.error = false;
+                  this.people = result || [];
                 })
             );
+
+            this.store
+              .select(selectPeopleListError)
+              .pipe(
+                filter((error) => !!error),
+                distinctUntilChanged()
+              )
+              .subscribe((error) => {
+                // invalida page number
+                if (error?.error.detail === 'Not found') {
+                  this.navigate(1);
+                }
+                if (!error?.ok) {
+                  this.error = true;
+                }
+              });
           }
         })
     );

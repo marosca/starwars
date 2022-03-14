@@ -1,6 +1,6 @@
 <section class="people-list__paginator">
   <mat-paginator
-    [length]="totalPages"
+    [length]="totalPages$ | async"
     [pageSize]="10"
     [pageIndex]="currentPage - 1"
     (page)="navigate($event.pageIndex + 1)"
@@ -10,18 +10,21 @@
 </section>
 <main class="people-list__main">
   <mat-spinner
-    *ngIf="!people || !people.length; else PeopleList"
+    *ngIf="loadingPage$ | async; else PeopleList"
     class="people-list__loading"
     color="black"
   ></mat-spinner>
   <ng-template #PeopleList>
     <section class="people-list__list-wrapper">
-      <people-card
-        *ngFor="let person of people"
-        [person]="person"
-        [imgUrl]="getImage(person?.id)"
-      >
-      </people-card>
+      <div *ngIf="error">Ha habido un error, inténtelo más tarde</div>
+      <ng-container *ngIf="!error">
+        <people-card
+          *ngFor="let person of people"
+          [person]="person"
+          [imgUrl]="getImage(person?.id)"
+        >
+        </people-card>
+      </ng-container>
     </section>
   </ng-template>
 </main>

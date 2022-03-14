@@ -27,3 +27,14 @@ export interface People {
   url: string;
   id?: string;
 }
+
+export interface SwapiError {
+  code: number;
+  error: { detail: string };
+  message: string;
+  name: string;
+  ok: boolean;
+  status: number;
+  statusText: string;
+  url: string;
+}

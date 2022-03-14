@@ -12,30 +12,6 @@ import { environment } from '../../environments/environment';
 export class PeopleService {
   constructor(private http: HttpClient) {}
 
-  private handleGetPeopleError(error: HttpErrorResponse) {
-    // swapi error when there is no results
-    // we send our own code to manage error and
-    // send user to a valid page
-    if (error.error.detail === 'Not found') {
-      return of({ error: { code: 800 } } as PeopleRequest);
-    }
-    if (error.status === 0) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong.
-      console.error(
-        `Backend returned code ${error.status}, body was: `,
-        error.error
-      );
-    }
-    // Return an observable with a user-facing error message.
-    return throwError(
-      () => new Error('Something bad happened; please try again later.')
-    );
-  }
-
   getPeople(page: number): Observable<PeopleRequest> {
     return this.http
       .get<PeopleRequest>(`${environment.apiUrl}/people/?page=${page}`)
@@ -46,8 +22,7 @@ export class PeopleService {
             ...data,
             id: getIdByUrl(data.url),
           })),
-        })),
-        catchError(this.handleGetPeopleError)
+        }))
       );
   }
 
