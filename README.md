@@ -2,6 +2,8 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.6.
 
+## URL: https://marosca-starwars.herokuapp.com/
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
@@ -13,4 +15,3 @@ In order to get better performance, this projects has been structured with lazy 
 **To improve core web vitals (CLS, LCP...), SEO and user experience when landing in web, I recommend to use SSR rendering with angular universal for renderings with a memory caching system like redis or somethin similar. This has not been implemented in this example, but would be highly recommended for this type of project.**
 
 ![Redux dev](https://i.ibb.co/nP8rrpR/Captura-de-pantalla-2022-03-15-a-las-6-25-23.png)
-
