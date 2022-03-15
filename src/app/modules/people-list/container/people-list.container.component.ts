@@ -27,7 +27,7 @@ export class PeopleListContainer implements OnInit {
   loadingPage$ = this.store.select(selectPeopleListLoading);
   error = false;
 
-  imgURL = environment.apiImageUrl;
+  imgURL = environment.apiImageUrl + '/characters';
   // Subscriptions: Even with take(1) or first(),
   // we must AutoUnsubscribe them to prevent attempts to update
   // after component destroyed when waiting for the response to come

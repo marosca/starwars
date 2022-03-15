@@ -24,7 +24,8 @@ import {
 export class PeopleDetailsContainer implements OnInit {
   id!: string;
   person!: People;
-  imgURL = environment.apiImageUrl;
+  imgURL = environment.apiImageUrl + '/characters';
+  imgURLFilm = environment.apiImageUrl + '/films';
   // Subscriptions: Even with take(1) or first(),
   // we must AutoUnsubscribe them to prevent attempts to update
   // after component destroyed when waiting for the response to come
@@ -64,6 +65,7 @@ export class PeopleDetailsContainer implements OnInit {
             .select(selectFilmsByPeopleId(+this.id))
             .subscribe((films) => {
               this.films = films;
+              console.log('**** this.films', films);
             })
         );
       });
@@ -83,4 +85,12 @@ export class PeopleDetailsContainer implements OnInit {
     );
   }
   ngOnInit(): void {}
+
+  getFilmImgUrl(url: string) {
+    const filmId = url
+      .replace(`${environment.apiUrl}/films/`, '')
+      .replace('/', '');
+    console.log(this.imgURLFilm + '/' + filmId);
+    return this.imgURLFilm + '/' + filmId + '.jpg';
+  }
 }

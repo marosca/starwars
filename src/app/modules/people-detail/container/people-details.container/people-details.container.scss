@@ -28,6 +28,18 @@
     object-fit: cover;
   }
 
+  &__films-wrapper {
+    display: flex;
+    padding: 0;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  &__image-film {
+    width: 80px;
+    border-radius: 10px;
+  }
+
   &__info {
     width: 50vw;
     padding: 80px;
@@ -48,7 +60,11 @@
     }
 
     &--data-film {
+      display: flex;
+      flex-direction: column;
       font-size: 18px;
+      padding: 10px;
+      flex: 1;
     }
 
     &-films {
@@ -84,5 +100,8 @@
       padding-top: 97px;
       object-fit: cover;
     }
+    // &__films-wrapper {
+    //   flex-direction: column;
+    // }
   }
 }

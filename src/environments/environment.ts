@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'https://swapi.dev/api',
-  apiImageUrl: 'https://starwars-visualguide.com/assets/img/characters',
+  apiImageUrl: 'https://starwars-visualguide.com/assets/img',
 };
 
 /*

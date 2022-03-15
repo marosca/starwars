@@ -64,9 +64,15 @@
 </ng-template>
 <!-- FILMS TEMPLATE -->
 <ng-template #FilmsTemplate>
-  <ul>
+  <ul class="people-details__films-wrapper">
     <li *ngFor="let film of films" class="people-details__block--data-film">
-      {{ film?.title }}
+      <img
+        mat-card-image
+        class="people-details__image-film"
+        [src]="getFilmImgUrl(film.url)"
+        alt="Foto"
+      />
+      <p>{{ film?.title }}</p>
     </li>
   </ul>
 </ng-template>
