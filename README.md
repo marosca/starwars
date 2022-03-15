@@ -6,22 +6,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Projects structure
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+In order to get better performance, this projects has been structured with lazy modules. In adition has been cached all requests data content from swapi api in a redux store, to avoid making requests during internal browsing. When user landing, page has to get information for server. While you are browsing everything is saved in the store and in subsequent navigations the server information is not needed
 
-## Build
+**To improve core web vitals (CLS, LCP...), SEO and user experience when landing in web, I recommend to use SSR rendering with angular universal for renderings with a memory caching system like redis or somethin similar. This has not been implemented in this example, but would be highly recommended for this type of project.**
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+![Toolbar](https://raw.github.com/marosca/starwars/master/picture.jpg)
