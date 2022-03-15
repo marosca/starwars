@@ -12,5 +12,5 @@ In order to get better performance, this projects has been structured with lazy 
 
 **To improve core web vitals (CLS, LCP...), SEO and user experience when landing in web, I recommend to use SSR rendering with angular universal for renderings with a memory caching system like redis or somethin similar. This has not been implemented in this example, but would be highly recommended for this type of project.**
 
-![Redux dev](https://raw.github.com/marosca/starwars/main/image.png)
+![Redux dev](https://raw.githubusercontent.com/marosca/starwars/main/image.png?token=GHSAT0AAAAAABOJ5UR3PV7RC52XYJORPTIAYRQGK6A)
 
