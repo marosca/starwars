@@ -8,6 +8,12 @@
     margin: 0 auto;
     padding: 40px 16px;
   }
+  &__icon {
+    color: black;
+    position: absolute;
+    padding: 16px;
+    font-size: 30px;
+  }
   &__list-wrapper {
     display: flex;
     flex-wrap: wrap;

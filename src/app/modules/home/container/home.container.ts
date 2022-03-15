@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { paths } from 'src/app/app-routing.paths';
 
 @Component({
   selector: 'app-home.container',
@@ -7,6 +8,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeContainer implements OnInit {
   constructor() {}
-
+  paths = paths;
   ngOnInit(): void {}
 }

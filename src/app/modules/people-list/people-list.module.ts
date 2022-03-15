@@ -6,6 +6,7 @@ import { PeopleListContainer } from './container/people-list.container.component
 import { MatCardModule } from '@angular/material/card';
 import { PeopleCardComponent } from './components/people-card/people-card.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [PeopleListContainer, PeopleCardComponent],
@@ -15,6 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatCardModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
+    MatIconModule,
   ],
   exports: [PeopleCardComponent],
 })

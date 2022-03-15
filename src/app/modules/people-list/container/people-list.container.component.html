@@ -1,4 +1,7 @@
 <section class="people-list__paginator">
+  <a class="people-list__icon" [routerLink]="['/']" title="Ir a home"
+    ><mat-icon aria-hidden="false" aria-label="Ir a la home">home</mat-icon></a
+  >
   <mat-paginator
     [length]="totalPages$ | async"
     [pageSize]="10"
