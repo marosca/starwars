@@ -6,7 +6,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Projects structure
+## Projects structure and information about CACHING data
 
 In order to get better performance, this projects has been structured with lazy modules. In adition has been cached all requests data content from swapi api in a redux store, to avoid making requests during internal browsing. When user landing, page has to get information for server. While you are browsing everything is saved in the store and in subsequent navigations the server information is not needed
 
